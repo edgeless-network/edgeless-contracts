@@ -15,6 +15,7 @@ IDAI constant DAI = IDAI(0x6B175474E89094C44Da98b954EedeAC495271d0F);
 ILido constant LIDO = ILido(0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84);
 IUSDC constant USDC = IUSDC(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48);
 IUSDT constant USDT = IUSDT(0xdAC17F958D2ee523a2206206994597C13D831ec7);
+address constant ETH = address(0);
 
 ICurve3Pool constant CURVE_3POOL = ICurve3Pool(0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7);
 IDssPsm constant PSM = IDssPsm(0x89B78CfA322F6C5dE0aBcEecab66Aee45393cC5A);
@@ -29,7 +30,8 @@ IWithdrawalQueueERC721 constant LIDO_WITHDRAWAL_ERC721 =
 // IUSDC constant USDC = IUSDC(0x6Fb5ef893d44F4f88026430d82d4ef269543cB23);
 // IUSDT constant USDT = IUSDT(0x5858f25cc225525A7494f76d90A6549749b3030B); // need to be tradeable for dai on curve
 
-// ICurve3Pool constant CURVE_3POOL = ICurve3Pool(0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7); // Unfortunately, curve is not supported on goerli, thus, USDT deposits are not supported
+// ICurve3Pool constant CURVE_3POOL = ICurve3Pool(0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7); // Unfortunately, curve
+// is not supported on goerli, thus, USDT deposits are not supported
 // IDssPsm constant PSM = IDssPsm(0xb480B8dD5A232Cb7B227989Eacda728D1F247dB6);
 
 // IDsrManager constant DSR_MANAGER = IDsrManager(0xF7F0de3744C82825D77EdA8ce78f07A916fB6bE7);

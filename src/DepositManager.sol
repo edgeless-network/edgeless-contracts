@@ -2,7 +2,7 @@
 pragma solidity >=0.8.23;
 
 import { DAI, LIDO, USDC, USDT, _RAY, CURVE_3POOL, PSM } from "./Constants.sol";
-import { WrappedToken } from "./WrappedToken.sol";
+import { WrappedToken } from "./tokens/WrappedToken.sol";
 
 import { MakerMath } from "./lib/MakerMath.sol";
 
@@ -20,8 +20,9 @@ contract DepositManager {
     uint256 public constant _INITIAL_DEPOSIT_AMOUNT = 1000;
     uint256 public constant _WAD = 10 ** 18;
 
-    error ZeroDeposit();
     error InsufficientBalance();
+    error ZeroAddress();
+    error ZeroDeposit();
 
     /**
      * @notice Deposit Eth to the ETH pool
@@ -41,9 +42,13 @@ contract DepositManager {
      * @param usdcAmount Amount of USDC deposited for swapping
      * @return mintAmount Amount of wrapped tokens to mint
      */
-    function _depositUSDC(uint256 usdcAmount) internal returns (uint256 mintAmount) {
+    function _depositUSDC(uint256 usdcAmount, address stakingManager) internal returns (uint256 mintAmount) {
         if (usdcAmount == 0) {
             revert ZeroDeposit();
+        }
+
+        if (stakingManager == address(0)) {
+            revert ZeroAddress();
         }
         uint256 wadAmount = MakerMath.usdToWad(usdcAmount);
         uint256 conversionFee = PSM.tin() * wadAmount / _WAD;
@@ -53,7 +58,7 @@ contract DepositManager {
 
         /* Convert USDC to DAI through MakerDAO Peg Stability Mechanism. */
         USDC.approve(PSM.gemJoin(), usdcAmount);
-        PSM.sellGem(address(this), usdcAmount);
+        PSM.sellGem(stakingManager, usdcAmount);
     }
 
     /**
@@ -63,9 +68,19 @@ contract DepositManager {
      * @param minDAIAmount Minimum DAI amount to accept when exchanging through Curve (wad)
      * @return mintAmount Amount of wrapped tokens to mint
      */
-    function _depositUSDT(uint256 usdtAmount, uint256 minDAIAmount) internal returns (uint256 mintAmount) {
+    function _depositUSDT(
+        uint256 usdtAmount,
+        uint256 minDAIAmount,
+        address stakingManager
+    )
+        internal
+        returns (uint256 mintAmount)
+    {
         if (usdtAmount == 0) {
             revert ZeroDeposit();
+        }
+        if (stakingManager == address(0)) {
+            revert ZeroAddress();
         }
 
         uint256 usdtBalance = USDT.balanceOf(address(this));
@@ -80,6 +95,7 @@ contract DepositManager {
         /* The amount of DAI received in the exchange is uncertain due to slippage, so we must record the deposit after
         the exchange. */
         mintAmount = DAI.balanceOf(address(this)) - daiBalance;
+        DAI.transfer(stakingManager, mintAmount);
     }
 
     /**
@@ -87,11 +103,14 @@ contract DepositManager {
      * @param daiAmount Amount to deposit in DAI (wad)
      * @return mintAmount Amount of wrapped tokens to mint
      */
-    function _depositDAI(uint256 daiAmount) internal returns (uint256 mintAmount) {
+    function _depositDAI(uint256 daiAmount, address stakingManager) internal returns (uint256 mintAmount) {
         if (daiAmount == 0) {
             revert ZeroDeposit();
         }
-        DAI.transferFrom(msg.sender, address(this), daiAmount);
+        if (stakingManager == address(0)) {
+            revert ZeroAddress();
+        }
+        DAI.transferFrom(msg.sender, stakingManager, daiAmount);
         return daiAmount;
     }
 
@@ -100,11 +119,14 @@ contract DepositManager {
      * @param stEthAmount Amount to deposit in StEth
      * @return mintAmount Amount of wrapped tokens to mint
      */
-    function _depositStEth(uint256 stEthAmount) internal returns (uint256 mintAmount) {
+    function _depositStEth(uint256 stEthAmount, address stakingManager) internal returns (uint256 mintAmount) {
         if (stEthAmount == 0) {
             revert ZeroDeposit();
         }
-        LIDO.transferFrom(msg.sender, address(this), stEthAmount);
+        if (stakingManager == address(0)) {
+            revert ZeroAddress();
+        }
+        LIDO.transferFrom(msg.sender, stakingManager, stEthAmount);
         return stEthAmount;
     }
 }
