@@ -1,5 +1,5 @@
 {
-  "address": "0x12F2707Ca9C951B6f354950F98E7B09dC665857a",
+  "address": "0x1d5Ce837856C504A42594e390603e2d775FAB09C",
   "abi": [
     {
       "anonymous": false,
@@ -55,6 +55,33 @@
       "type": "receive"
     },
     {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "target",
+          "type": "address"
+        }
+      ],
+      "name": "AddressEmptyCode",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "AddressInsufficientBalance",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "FailedInnerCall",
+      "type": "error"
+    },
+    {
       "inputs": [],
       "name": "InvalidInitialization",
       "type": "error"
@@ -100,6 +127,17 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "SafeERC20FailedOperation",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "bytes",
           "name": "data",
           "type": "bytes"
@@ -107,6 +145,25 @@
       ],
       "name": "TransferFailed",
       "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "asset",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "contract IStakingStrategy",
+          "name": "strategy",
+          "type": "address"
+        }
+      ],
+      "name": "AddStrategy",
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -157,6 +214,127 @@
         }
       ],
       "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "asset",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "contract IStakingStrategy",
+          "name": "strategy",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "withdrawnAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "RemoveStrategy",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "asset",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "SetActiveStrategy",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "autoStake",
+          "type": "bool"
+        }
+      ],
+      "name": "SetAutoStake",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "depositor",
+          "type": "address"
+        }
+      ],
+      "name": "SetDepositor",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "staker",
+          "type": "address"
+        }
+      ],
+      "name": "SetStaker",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "asset",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Stake",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "asset",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Withdraw",
       "type": "event"
     },
     {
@@ -528,64 +706,64 @@
       "type": "constructor"
     }
   ],
-  "transactionHash": "0xce6fc1fcbcbd11975292658a0bc75422a0f268276e2524dc3c26e9261173616f",
+  "transactionHash": "0x7b78fcd9218977b61c69c93cb35b817eb2a96d4b48394b37807778fd7334f857",
   "receipt": {
     "to": null,
     "from": "0x08C6fBA53BF2Ae19DBdC330E258B510c1C148e44",
-    "contractAddress": "0x12F2707Ca9C951B6f354950F98E7B09dC665857a",
-    "transactionIndex": 72,
-    "gasUsed": "359448",
-    "logsBloom": "0x00000000000000000000000000000000400000000000000000800000000000000000100000000000000000000000000000000000000000100000000000000000000000000200000000000040000002000001000000000000000000000000000000000000020000000000000000000800000008000000000000000000000000400000080000000000000800000000000000000040000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000080000004000000000000020020000000000000000000000000000000000000000000000000000000000000000000",
-    "blockHash": "0xc1aa8bc02db7078ac6c8d5e16f9a9512ed3acfba03dcaa20c311b76a15931871",
-    "transactionHash": "0xce6fc1fcbcbd11975292658a0bc75422a0f268276e2524dc3c26e9261173616f",
+    "contractAddress": "0x1d5Ce837856C504A42594e390603e2d775FAB09C",
+    "transactionIndex": 55,
+    "gasUsed": "359460",
+    "logsBloom": "0x00000100000000000000000000000000400000000000000000800000000000080000100000800000000000000000000000000400000000100000000000000000000000000000000000000040000002000001000000000000000000000000000000000000020000000000000000000800000000000000000000000000000000400000080000000000000800000000000000000000000080000000000000000000000000000000000000000000000000002000000000000000000000000000000000000020000000000000000000000000000000000004000000000000000020000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x0186ab17d2efd23ec5f158c3565d9ccb4aa83b5bf958b95b1376decce1015b00",
+    "transactionHash": "0x7b78fcd9218977b61c69c93cb35b817eb2a96d4b48394b37807778fd7334f857",
     "logs": [
       {
-        "transactionIndex": 72,
-        "blockNumber": 10371643,
-        "transactionHash": "0xce6fc1fcbcbd11975292658a0bc75422a0f268276e2524dc3c26e9261173616f",
-        "address": "0x12F2707Ca9C951B6f354950F98E7B09dC665857a",
+        "transactionIndex": 55,
+        "blockNumber": 10375630,
+        "transactionHash": "0x7b78fcd9218977b61c69c93cb35b817eb2a96d4b48394b37807778fd7334f857",
+        "address": "0x1d5Ce837856C504A42594e390603e2d775FAB09C",
         "topics": [
           "0xbc7cd75a20ee27fd9adebab32041f755214dbc6bffa90cc0225b39da2e5c2d3b",
-          "0x000000000000000000000000a148a703a1ff4700047b1ea39bee5405579d2175"
+          "0x000000000000000000000000016feefb3be0befed2cc1fcdc02063b52a64905c"
         ],
         "data": "0x",
-        "logIndex": 53,
-        "blockHash": "0xc1aa8bc02db7078ac6c8d5e16f9a9512ed3acfba03dcaa20c311b76a15931871"
+        "logIndex": 26,
+        "blockHash": "0x0186ab17d2efd23ec5f158c3565d9ccb4aa83b5bf958b95b1376decce1015b00"
       },
       {
-        "transactionIndex": 72,
-        "blockNumber": 10371643,
-        "transactionHash": "0xce6fc1fcbcbd11975292658a0bc75422a0f268276e2524dc3c26e9261173616f",
-        "address": "0x12F2707Ca9C951B6f354950F98E7B09dC665857a",
+        "transactionIndex": 55,
+        "blockNumber": 10375630,
+        "transactionHash": "0x7b78fcd9218977b61c69c93cb35b817eb2a96d4b48394b37807778fd7334f857",
+        "address": "0x1d5Ce837856C504A42594e390603e2d775FAB09C",
         "topics": [
           "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
           "0x0000000000000000000000000000000000000000000000000000000000000000",
           "0x00000000000000000000000008c6fba53bf2ae19dbdc330e258b510c1c148e44"
         ],
         "data": "0x",
-        "logIndex": 54,
-        "blockHash": "0xc1aa8bc02db7078ac6c8d5e16f9a9512ed3acfba03dcaa20c311b76a15931871"
+        "logIndex": 27,
+        "blockHash": "0x0186ab17d2efd23ec5f158c3565d9ccb4aa83b5bf958b95b1376decce1015b00"
       },
       {
-        "transactionIndex": 72,
-        "blockNumber": 10371643,
-        "transactionHash": "0xce6fc1fcbcbd11975292658a0bc75422a0f268276e2524dc3c26e9261173616f",
-        "address": "0x12F2707Ca9C951B6f354950F98E7B09dC665857a",
+        "transactionIndex": 55,
+        "blockNumber": 10375630,
+        "transactionHash": "0x7b78fcd9218977b61c69c93cb35b817eb2a96d4b48394b37807778fd7334f857",
+        "address": "0x1d5Ce837856C504A42594e390603e2d775FAB09C",
         "topics": [
           "0xc7f505b2f371ae2175ee4913f4499e1f2633a7b5936321eed1cdaeb6115181d2"
         ],
         "data": "0x0000000000000000000000000000000000000000000000000000000000000001",
-        "logIndex": 55,
-        "blockHash": "0xc1aa8bc02db7078ac6c8d5e16f9a9512ed3acfba03dcaa20c311b76a15931871"
+        "logIndex": 28,
+        "blockHash": "0x0186ab17d2efd23ec5f158c3565d9ccb4aa83b5bf958b95b1376decce1015b00"
       }
     ],
-    "blockNumber": 10371643,
-    "cumulativeGasUsed": "7767306",
+    "blockNumber": 10375630,
+    "cumulativeGasUsed": "4345814",
     "status": 1,
     "byzantium": true
   },
   "args": [
-    "0xA148a703a1Ff4700047b1ea39bEE5405579d2175",
+    "0x016FeEfb3Be0BEfed2Cc1fcdC02063B52A64905C",
     "0x485cc95500000000000000000000000008c6fba53bf2ae19dbdc330e258b510c1c148e4400000000000000000000000008c6fba53bf2ae19dbdc330e258b510c1c148e44"
   ],
   "numDeployments": 1,
@@ -600,7 +778,7 @@
       "0x08C6fBA53BF2Ae19DBdC330E258B510c1C148e44"
     ]
   },
-  "implementation": "0xA148a703a1Ff4700047b1ea39bEE5405579d2175",
+  "implementation": "0x016FeEfb3Be0BEfed2Cc1fcdC02063B52A64905C",
   "devdoc": {
     "details": "This contract implements an upgradeable proxy. It is upgradeable because calls are delegated to an implementation address that can be changed. This address is stored in storage in the location specified by https://eips.ethereum.org/EIPS/eip-1967[EIP1967], so that it doesn't conflict with the storage layout of the implementation behind the proxy.",
     "kind": "dev",
