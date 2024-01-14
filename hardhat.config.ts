@@ -78,13 +78,13 @@ const config: HardhatUserConfig = {
     },
     l1Eth: {
       hardhat: 0,
-      goerli: "",
+      goerli: "0xEfb84994859eC48a266E63ee665132D732c4D785",
       sepolia: "0x62b4B558971b6C6054C195602Fc32ae5939bF471",
       edgelessSepoliaTestnet: "0x62b4B558971b6C6054C195602Fc32ae5939bF471"
     },
     l1USD: {
       hardhat: 0,
-      goerli: "",
+      goerli: "0x1aBC8ad324FD8525B827AB42f7688e7075630AcD",
       sepolia: "0x5EFaC893A67E167a64AfA71209ab5A86765A3feA",
       edgelessSepoliaTestnet: "0x5EFaC893A67E167a64AfA71209ab5A86765A3feA"
     },
