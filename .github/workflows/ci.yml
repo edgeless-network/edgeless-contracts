@@ -30,10 +30,10 @@ jobs:
         uses: "oven-sh/setup-bun@v1"
 
       - name: "Install the Node.js dependencies"
-        run: "npm install"
+        run: "bun install --legacy-peer-deps"
 
       - name: "Lint the code"
-        run: "npm run lint"
+        run: "bun run lint"
 
       - name: "Add lint summary"
         run: |
@@ -53,7 +53,7 @@ jobs:
         uses: "oven-sh/setup-bun@v1"
 
       - name: "Install the Node.js dependencies"
-        run: "bun install"
+        run: "bun install --legacy-peer-deps"
 
       - name: "Build the contracts and print their size"
         run: "forge build --sizes"
@@ -74,7 +74,7 @@ jobs:
         uses: "foundry-rs/foundry-toolchain@v1"
 
       - name: "Install the Node.js dependencies"
-        run: "npm install"
+        run: "bun install --legacy-peer-deps"
 
       - name: "Show the Foundry config"
         run: "forge config"
