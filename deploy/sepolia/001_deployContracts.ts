@@ -8,6 +8,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const { deployer, owner, staker, l1StandardBridge } = await getNamedAccounts()
 
     const EdgelessDeposit = await getOrNull("EdgelessDeposit");
+    // TODO: Assertions after each deployment to make sure things are set correctly
     if (!EdgelessDeposit) {
         await deploy('StakingManager', {
             from: deployer,
@@ -26,6 +27,15 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             skipIfAlreadyDeployed: true,
             log: true,
         });
+
+        if (await read("StakingManager", "staker") != staker) {
+            throw new Error("StakingManager staker not set correctly");
+        }
+
+        if (await read("StakingManager", "owner") != staker) {
+            throw new Error("StakingManager staker not set correctly");
+        }
+
 
         await deploy('EdgelessDeposit', {
             from: deployer,
@@ -86,6 +96,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             log: true,
         });
 
+        await execute("EthStrategy",
+            { from: owner, log: true },
+            "setAutoStake",
+            false
+        );
+
         await execute("StakingManager",
             { from: owner, log: true },
             "addStrategy",
@@ -118,6 +134,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             log: true,
         });
 
+        await execute("DaiStrategy",
+            { from: owner, log: true },
+            "setAutoStake",
+            false
+        );
+
         await execute("StakingManager",
             { from: owner, log: true },
             "addStrategy",
@@ -131,30 +153,10 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
             await read("DaiStrategy", "underlyingAsset"),
             0
         );
-
-        await hre.run("etherscan-verify", {
-            apiKey: process.env.ETHERSCAN_API_KEY,
-        })
-
-        await hre.run("verify:verify", {
-            address: (await get("Edgeless Wrapped ETH")).address,
-            constructorArguments: [
-                (await get('EdgelessDeposit')).address,
-                await read("Edgeless Wrapped ETH", "name"),
-                await read("Edgeless Wrapped ETH", "symbol")
-            ],
-        });
-        await hre.run("verify:verify", {
-            address: (await get("Edgeless Wrapped USD")).address,
-            constructorArguments: [
-                (await get('EdgelessDeposit')).address,
-                await read("Edgeless Wrapped USD", "name"),
-                await read("Edgeless Wrapped USD", "symbol")
-            ],
-        });
     } else {
         log("EdgelessDeposit already deployed, skipping...")
     }
 
 };
 export default func;
+func.skip = async () => true;

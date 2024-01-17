@@ -52,7 +52,7 @@ abstract contract DeploymentUtils is PRBTest {
 
         address edgelessDepositImpl = address(new EdgelessDeposit());
         bytes memory edgelessDepositData =
-            abi.encodeCall(EdgelessDeposit.initialize, (owner, staker, IL1StandardBridge(address(1)), stakingManager));
+            abi.encodeCall(EdgelessDeposit.initialize, (owner, IL1StandardBridge(address(1)), stakingManager));
         edgelessDeposit = EdgelessDeposit(payable(address(new ERC1967Proxy(edgelessDepositImpl, edgelessDepositData))));
 
         stakingManager.setStaker(address(edgelessDeposit));

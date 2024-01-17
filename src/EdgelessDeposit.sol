@@ -51,14 +51,13 @@ contract EdgelessDeposit is DepositManager, Ownable2StepUpgradeable, UUPSUpgrade
 
     function initialize(
         address _owner,
-        address _staker,
         IL1StandardBridge _l1standardBridge,
         StakingManager _stakingManager
     )
         external
         initializer
     {
-        if (address(_l1standardBridge) == address(0) || _owner == address(0) || _staker == address(0)) {
+        if (address(_l1standardBridge) == address(0) || _owner == address(0)) {
             revert ZeroAddress();
         }
 

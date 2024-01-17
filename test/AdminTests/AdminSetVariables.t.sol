@@ -97,23 +97,6 @@ contract AdminFunctionalityTest is PRBTest, StdCheats, StdUtils, DeploymentUtils
     }
 
     // ----------- Staking Manager ------------
-    function test_stake(uint256 amount, address randomUser) external {
-        forkMainnetAndDeploy();
-
-        amount = bound(amount, 1e18, 1e23);
-        address EthAddress = stakingManager.ETH_ADDRESS();
-        vm.deal(address(edgelessDeposit), amount);
-        vm.prank(owner);
-        stakingManager.setAutoStake(false);
-
-        vm.prank(address(edgelessDeposit));
-        stakingManager.stake{ value: amount }(EthAddress, amount);
-
-        vm.deal(randomUser, amount);
-        vm.expectRevert();
-        vm.prank(randomUser);
-        stakingManager.stake{ value: amount }(EthAddress, amount);
-    }
 
     function test_withdraw(address randomUser) external {
         address EthAddress = stakingManager.ETH_ADDRESS();
@@ -144,16 +127,6 @@ contract AdminFunctionalityTest is PRBTest, StdCheats, StdUtils, DeploymentUtils
         vm.prank(randomUser);
         vm.expectRevert();
         stakingManager.setDepositor(randomDepositor);
-    }
-
-    function test_setAutoStake(bool autoStake, address randomUser) external {
-        vm.prank(owner);
-        stakingManager.setAutoStake(autoStake);
-        assertEq(stakingManager.autoStake(), autoStake);
-
-        vm.prank(randomUser);
-        vm.expectRevert();
-        stakingManager.setAutoStake(autoStake);
     }
 
     function test_addStrategy(address asset, IStakingStrategy strategy, address randomUser) external {
